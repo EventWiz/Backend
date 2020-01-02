@@ -13,12 +13,8 @@ module.exports = {
         allowNull: false
       },
       event_id: {
-        type: Sequelize.UUIDV4,
-        allowNull: false,
-        references: {
-          model: "Events",
-          key: "id"
-        }
+        type: Sequelize.UUID,
+        allowNull: false
       },
       used: {
         type: Sequelize.BOOLEAN,

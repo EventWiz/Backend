@@ -25,12 +25,9 @@ module.exports = {
         allowNull: false
       },
       creator: {
-        type: Sequelize.UUIDV4,
+        type: Sequelize.UUID,
         allowNull: false,
-        references: {
-          model: "Users",
-          key: "id"
-        }
+       
       },
       location: {
         type: Sequelize.TEXT,

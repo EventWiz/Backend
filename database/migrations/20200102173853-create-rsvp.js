@@ -4,30 +4,21 @@ module.exports = {
     return queryInterface.createTable("Rsvps", {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.UUIDV4
+        type: Sequelize.UUID
       },
       event_id: {
-        type: Sequelize.UUIDV4,
-        references: {
-          model: "Events",
-          key: "id"
-        }
+        type: Sequelize.UUID,
+        allowNull: false
       },
       user_id: {
-        type: Sequelize.UUIDV4,
-        references: {
-          model: "Users",
-          key: "id"
-        }
+        type: Sequelize.UUID,
+        allowNull: false
       },
       ticket_id: {
-        type: Sequelize.UUIDV4,
-        references: {
-          model: "Tickets",
-          key: "id"
-        }
+        type: Sequelize.UUID,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

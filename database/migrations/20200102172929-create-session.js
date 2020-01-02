@@ -9,12 +9,8 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4
       },
       event_id: {
-        type: Sequelize.UUIDV4,
-        allowNull: false,
-        references: {
-          model: "Events",
-          key: "id"
-        }
+        type: Sequelize.UUID,
+        allowNull: false
       },
       start_time: {
         type: Sequelize.DATE,
