@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       creator: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUIDV4,
         allowNull: true
       },
       location: {

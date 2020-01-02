@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       img: DataTypes.STRING,
       title: DataTypes.STRING,
       desc: DataTypes.STRING,
-      creator: DataTypes.INTEGER,
+      creator: DataTypes.UUIDV4,
       location: DataTypes.STRING,
       start_date: DataTypes.DATE,
       end_date: DataTypes.DATE,
