@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       img: DataTypes.STRING,
       title: DataTypes.STRING,
       desc: DataTypes.STRING,
-      creator: DataTypes.UUIDV4,
       location: DataTypes.STRING,
       start_date: DataTypes.DATE,
       end_date: DataTypes.DATE,
@@ -23,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   Event.associate = function(models) {
     // associations can be defined here
+    Event.belongsTo(models.User, {
+      foreignKey: 'creator',
+      onDelete: 'CASCADE'
+    });
   };
   return Event;
 };
