@@ -9,7 +9,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4
       },
       event_id: {
-        type: Sequelize.UUIDV4,
+        type: Sequelize.UUID,
         allowNull: false
       },
       start_time: {

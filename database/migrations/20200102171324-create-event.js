@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false
       },
       creator: {
-        type: Sequelize.UUIDV4,
+        type: Sequelize.UUID,
         allowNull: false,
        
       },
