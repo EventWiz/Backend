@@ -14,11 +14,7 @@ module.exports = {
       },
       event_id: {
         type: Sequelize.UUIDV4,
-        allowNull: false,
-        references: {
-          model: "Events",
-          key: "id"
-        }
+        allowNull: false
       },
       used: {
         type: Sequelize.BOOLEAN,
