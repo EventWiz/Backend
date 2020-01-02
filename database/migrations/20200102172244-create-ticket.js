@@ -9,7 +9,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4
       },
       ticket_no: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
       event_id: {

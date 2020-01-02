@@ -10,43 +10,43 @@ module.exports = {
       },
       type: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       img: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       desc: {
-        type: Sequelize.STRING,
-        allowNull: true
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       creator: {
         type: Sequelize.UUIDV4,
-        allowNull: true,
+        allowNull: false,
         references: {
           model: "Users",
           key: "id"
         }
       },
       location: {
-        type: Sequelize.STRING,
-        allowNull: true
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       start_date: {
         type: Sequelize.DATE,
-        allowNull: true
+        allowNull: false
       },
       end_date: {
         type: Sequelize.DATE,
-        allowNull: true
+        allowNull: false
       },
       capacity: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

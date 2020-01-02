@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       img: DataTypes.STRING,
       title: DataTypes.STRING,
-      desc: DataTypes.STRING,
-      location: DataTypes.STRING,
+      desc: DataTypes.TEXT,
+      location: DataTypes.TEXT,
       start_date: DataTypes.DATE,
       end_date: DataTypes.DATE,
       capacity: DataTypes.INTEGER

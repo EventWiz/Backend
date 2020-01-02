@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       start_time: DataTypes.DATE,
       end_time: DataTypes.DATE,
       speaker: DataTypes.STRING,
-      topic: DataTypes.STRING,
-      venue: DataTypes.STRING,
+      topic: DataTypes.TEXT,
+      venue: DataTypes.TEXT,
       date: DataTypes.DATE
     },
     {}

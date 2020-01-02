@@ -29,11 +29,11 @@ module.exports = {
         allowNull: false
       },
       topic: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       venue: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       date: {
