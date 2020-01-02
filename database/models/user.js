@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'creator',
       onDelete: 'CASCADE'
     });
+    User.hasMany(models.Rsvp, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
+    })
   };
 
    // Hide password from returned user data

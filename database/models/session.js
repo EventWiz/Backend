@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      event_id: DataTypes.UUIDV4,
       start_time: DataTypes.DATE,
       end_time: DataTypes.DATE,
       speaker: DataTypes.STRING,
@@ -21,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   Session.associate = function(models) {
     // associations can be defined here
+    Session.belongsTo(models.Event, {
+      foreignKey: "event_id",
+      onDelete: "CASCADE"
+    });
   };
   return Session;
 };

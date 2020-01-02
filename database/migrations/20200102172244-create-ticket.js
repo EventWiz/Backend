@@ -12,8 +12,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      price: {
-        type: Sequelize.INTEGER
+      event_id: {
+        type: Sequelize.UUIDV4,
+        allowNull: false
       },
       used: {
         type: Sequelize.BOOLEAN,
