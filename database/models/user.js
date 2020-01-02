@@ -32,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
   };
   User.associate = (models) => {
     // associations can be defined here
+    User.hasMany(models.Event, {
+      foreignKey: 'creator',
+      onDelete: 'CASCADE'
+    });
+    User.hasMany(models.Rsvp, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
+    })
   };
 
    // Hide password from returned user data
