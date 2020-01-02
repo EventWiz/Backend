@@ -26,7 +26,11 @@ module.exports = {
       },
       creator: {
         type: Sequelize.UUIDV4,
-        allowNull: true
+        allowNull: true,
+        references: {
+          model: "Users",
+          key: "id"
+        }
       },
       location: {
         type: Sequelize.STRING,

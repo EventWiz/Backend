@@ -9,13 +9,25 @@ module.exports = {
         type: Sequelize.UUIDV4
       },
       event_id: {
-        type: Sequelize.UUIDV4
+        type: Sequelize.UUIDV4,
+        references: {
+          model: "Events",
+          key: "id"
+        }
       },
       user_id: {
-        type: Sequelize.UUIDV4
+        type: Sequelize.UUIDV4,
+        references: {
+          model: "Users",
+          key: "id"
+        }
       },
       ticket_id: {
-        type: Sequelize.UUIDV4
+        type: Sequelize.UUIDV4,
+        references: {
+          model: "Tickets",
+          key: "id"
+        }
       },
       createdAt: {
         allowNull: false,
