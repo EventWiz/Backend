@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createSessionValidationRules } from '../../validators/rules/session';
+import createSessionValidationRules from '../../validators/rules/session';
 import validate from '../../validators';
 import createSession from '../../controllers/sessions';
 import isAuthenticated from '../../middleware/auth';
