@@ -107,12 +107,6 @@ export async function getAllEvents(req, res) {
 
 export async function getEventById(req, res) {
   const { authorization } = req.headers;
-  if (authorization) {
-    const { email } = decodeToken(authorization);
-
-  } else {
-
-  }
 
   const event = await models.Event.findOne({
     where: { id: req.params.eventId },
@@ -122,5 +116,20 @@ export async function getEventById(req, res) {
       },
     ],
   });
+
+  if (authorization) {
+    const { email } = decodeToken(authorization);
+    const { title } = event;
+    const pusherRoom = title.split(' ').join('_');
+    chatkit
+      .addUsersToRoom({
+        roomId: `${pusherRoom}_1`,
+        userIds: [email],
+      })
+      .then(() => console.log('added'))
+      .catch(err => console.error(err));
+
+    return formatResponse(res, { event });
+  }
   return formatResponse(res, { event });
 }
