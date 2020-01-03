@@ -1,9 +1,8 @@
 {
-  "name": "express-boilerplate",
+  "name": "Eventwiz",
   "version": "1.0.0",
-  "description": "boilerplate for express applications",
+  "description": "Backend API for Eventwiz app",
   "main": "index.js",
-  "author": "Orie Chinedu <oriechinedu@gmail.com>",
   "license": "MIT",
   "scripts": {
     "migrate": "npx sequelize-cli db:migrate",

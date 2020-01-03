@@ -34,15 +34,18 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.hasMany(models.Event, {
       foreignKey: 'creator',
-      onDelete: 'CASCADE'
+      as: 'events',
+      onDelete: 'CASCADE',
     });
-    User.hasMany(models.Rsvp, {
+    User.belongsToMany(models.Event, {
+      as: 'rsvps',
+      through: models.Rsvp,
       foreignKey: 'user_id',
-      onDelete: 'CASCADE'
-    })
+      onDelete: 'CASCADE',
+    });
   };
 
-   // Hide password from returned user data
+  // Hide password from returned user data
   User.prototype.toJSON = function () {
     const values = Object.assign({}, this.get());
     delete values.password;
