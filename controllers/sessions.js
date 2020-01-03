@@ -2,7 +2,7 @@ import formatResponse from '../helpers';
 
 import models from '../database/models';
 
-export default async function createSession(req, res, next) {
+export default async (req, res, next) => {
   try {
     const sessions = req.body.map(async body => {
       const {
@@ -40,4 +40,4 @@ export default async function createSession(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
+};
