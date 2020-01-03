@@ -91,3 +91,26 @@ export async function deleteEvent(req, res, next) {
     next(error);
   }
 }
+
+export async function getAllEvents(req, res) {
+  const event = await models.Event.findAll({
+    include: [
+      {
+        model: models.Session,
+      },
+    ],
+  });
+  return formatResponse(res, { event });
+}
+
+export async function getEventById(req, res) {
+  const event = await models.Event.findOne({
+    where: { id: req.params.eventId },
+    include: [
+      {
+        model: models.Session,
+      },
+    ],
+  });
+  return formatResponse(res, { event });
+}
