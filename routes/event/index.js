@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createEventValidationRules } from '../../validators/rules/event';
 import validate from '../../validators';
-import { createEvent } from '../../controllers/events';
+import { createEvent, editEvent, deleteEvent } from '../../controllers/events';
 import isAuthenticated from '../../middleware/auth';
 
 const router = Router();
@@ -13,5 +13,9 @@ router.post(
   isAuthenticated,
   createEvent,
 );
+
+router.put('/:eventId', isAuthenticated, editEvent);
+
+router.delete('/:eventId', isAuthenticated, deleteEvent);
 
 export default router;
