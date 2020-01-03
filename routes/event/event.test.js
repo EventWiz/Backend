@@ -80,7 +80,7 @@ describe('Edit event Endpoint', () => {
       .set('Authorization', token);
     expect(statusCode).toEqual(400);
   });
-  it('should respond with status code 200 if editing succeeds', async () => {
+  it('should respond with status code 200', async () => {
     const { statusCode, body } = await request(app)
       .put(`${BASE_URL}/events/${eventId}`)
       .send({
@@ -90,7 +90,7 @@ describe('Edit event Endpoint', () => {
     expect(statusCode).toEqual(200);
     expect(body).toHaveProperty('updatedEvent');
   });
-  it('should respond with status code 404 when invalid storeId is passed', async () => {
+  it('should respond with status code 404 when invalid eventId is passed', async () => {
     const { statusCode } = await request(app)
       .post(`${BASE_URL}/events/93875660985095`)
       .send(eventData)
