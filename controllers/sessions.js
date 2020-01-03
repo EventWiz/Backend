@@ -6,8 +6,8 @@ export async function createSession(req, res, next) {
   try {
     const {
       event_id,
-      start_date,
-      end_date,
+      start_time,
+      end_time,
       speaker,
       topic,
       venue,
@@ -16,8 +16,8 @@ export async function createSession(req, res, next) {
 
     const session = await models.Session.create({
       event_id,
-      start_date,
-      end_date,
+      start_time,
+      end_time,
       speaker,
       topic,
       venue,
