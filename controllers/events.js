@@ -3,6 +3,7 @@ import Chatkit from '@pusher/chatkit-server';
 import formatResponse from '../helpers';
 
 import models from '../database/models';
+import { decodeToken } from '../helpers/auth';
 
 const chatkit = new Chatkit({
   instanceLocator: process.env.PUSHER_INSTANCE_LOCATOR,
@@ -24,13 +25,6 @@ export async function createEvent(req, res, next) {
 
     const eventPusherRoomName = title.split(' ').join('_');
 
-    chatkit.createRoom({
-      id: `${eventPusherRoomName}_1`,
-      creatorId: 'eventz_admin',
-      name: eventPusherRoomName,
-      customData: { foo: 42 },
-    });
-
     const { id } = req.user;
 
     const event = await models.Event.create({
@@ -44,6 +38,14 @@ export async function createEvent(req, res, next) {
       capacity,
       creator: id,
     });
+
+    await chatkit.createRoom({
+      id: `${eventPusherRoomName}_1`,
+      creatorId: 'eventz_admin',
+      name: eventPusherRoomName,
+      customData: { foo: 42 },
+    });
+
     return formatResponse(res, { message: 'success', event }, 201);
   } catch (error) {
     next(error);
@@ -104,6 +106,14 @@ export async function getAllEvents(req, res) {
 }
 
 export async function getEventById(req, res) {
+  const { authorization } = req.headers;
+  if (authorization) {
+    const { email } = decodeToken(authorization);
+
+  } else {
+
+  }
+
   const event = await models.Event.findOne({
     where: { id: req.params.eventId },
     include: [
