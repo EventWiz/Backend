@@ -117,8 +117,8 @@ export async function getEventById(req, res) {
       },
     ],
   });
-  if (req.headers.authorization) {
-    const user = decodeToken(req.headers.authorization);
+  if (authorization) {
+    const user = decodeToken(authorization);
 
     const rsvp = await models.Rsvp.findOne({
       where: { user_id: user.__uuid, event_id: event.id },
@@ -140,15 +140,21 @@ export async function getEventById(req, res) {
         })
         .then(() => console.log('added'))
         .catch(err => console.error(err));
-      return formatResponse(res, { event });
+      return formatResponse(res, {
+        event: {
+          ...event.dataValues,
+          registered: true,
+        },
+      });
     }
+
     return formatResponse(res, {
       message: 'success',
       event: {
         ...event.dataValues,
-        registered: !!rsvp,
+        registered: false,
       },
     });
   }
-  return formatResponse(res, { message: 'success', event }, 200); ç;
+  return formatResponse(res, { message: 'success', event }, 200);
 }
