@@ -80,7 +80,7 @@ describe('Edit event Endpoint', () => {
       .set('Authorization', token);
     expect(statusCode).toEqual(400);
   });
-  it('should respond with status code 200 if editing succeeds', async () => {
+  it('should respond with status code 200', async () => {
     const { statusCode, body } = await request(app)
       .put(`${BASE_URL}/events/${eventId}`)
       .send({
