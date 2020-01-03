@@ -117,6 +117,14 @@ export async function getEventById(req, res) {
     ],
   });
 
+  // compare if the user is registered ffor the event before adding them to the room
+  // function updateRoomsWithSessions() {
+  // FOR CRON JOB FUNCTION
+  // loop through all sessions together with their event start date, and return only sessions whose events are that day
+  // go throught the array of session objects, calculate each sessions time, and for any session whose time seems to be 10mins from the current time, we send that session as an update
+  // to the pusher room related to the event
+  // }
+
   if (authorization) {
     const { email } = decodeToken(authorization);
     const { title } = event;
