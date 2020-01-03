@@ -38,12 +38,13 @@ export async function createEvent(req, res, next) {
 export async function editEvent(req, res, next) {
   try {
     const { eventId } = req.params;
+    const { id } = req.user;
 
     if (!Object.keys(req.body).length) {
       throw new ErrorHandler(400, "You can't send an empty request");
     }
     const [updated] = await models.Event.update(req.body, {
-      where: { id: eventId },
+      where: { id: eventId, creator: id },
     });
 
     if (updated) {
