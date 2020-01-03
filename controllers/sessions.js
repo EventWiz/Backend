@@ -4,7 +4,7 @@ import models from '../database/models';
 
 export default async function createSession(req, res, next) {
   try {
-    const sessions = req.body.map(async (body) => {
+    const sessions = req.body.map(async body => {
       const {
         event_id,
         start_time,
