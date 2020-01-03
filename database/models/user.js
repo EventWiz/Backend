@@ -34,10 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.hasMany(models.Event, {
       foreignKey: 'creator',
+      as: 'events',
       onDelete: 'CASCADE',
     });
     User.belongsToMany(models.Event, {
-      as: 'events',
+      as: 'rsvps',
       through: models.Rsvp,
       foreignKey: 'user_id',
       onDelete: 'CASCADE',

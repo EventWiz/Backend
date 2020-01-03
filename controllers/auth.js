@@ -37,7 +37,7 @@ export async function login(req, res, next) {
     }
     const isValidPassword = await user.validatePassword(password);
     if (isValidPassword) {
-      const token = await generateToken({ __uuid: user.id });
+      const token = await generateToken({ __uuid: user.id, email: user.email });
       return formatResponse(
         res,
         {
