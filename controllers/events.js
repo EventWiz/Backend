@@ -2,8 +2,9 @@ import { ErrorHandler } from 'express-error-bouncer';
 import Chatkit from '@pusher/chatkit-server';
 import formatResponse from '../helpers';
 
-import models from '../database/models';
 import { decodeToken } from '../helpers/auth';
+
+import models from '../database/models';
 
 const chatkit = new Chatkit({
   instanceLocator: process.env.PUSHER_INSTANCE_LOCATOR,
@@ -102,7 +103,7 @@ export async function getAllEvents(req, res) {
       },
     ],
   });
-  return formatResponse(res, { event });
+  return formatResponse(res, { message: 'success', event }, 200);
 }
 
 export async function getEventById(req, res) {
@@ -116,28 +117,38 @@ export async function getEventById(req, res) {
       },
     ],
   });
+  if (req.headers.authorization) {
+    const user = decodeToken(req.headers.authorization);
 
-  // compare if the user is registered ffor the event before adding them to the room
-  // function updateRoomsWithSessions() {
-  // FOR CRON JOB FUNCTION
-  // loop through all sessions together with their event start date, and return only sessions whose events are that day
-  // go throught the array of session objects, calculate each sessions time, and for any session whose time seems to be 10mins from the current time, we send that session as an update
-  // to the pusher room related to the event
-  // }
-
-  if (authorization) {
-    const { email } = decodeToken(authorization);
-    const { title } = event;
-    const pusherRoom = title.split(' ').join('_');
-    chatkit
-      .addUsersToRoom({
-        roomId: `${pusherRoom}_1`,
-        userIds: [email],
-      })
-      .then(() => console.log('added'))
-      .catch(err => console.error(err));
-
-    return formatResponse(res, { event });
+    const rsvp = await models.Rsvp.findOne({
+      where: { user_id: user.__uuid, event_id: event.id },
+    });
+    if (rsvp) {
+      // compare if the user is registered ffor the event before adding them to the room
+      // function updateRoomsWithSessions() {
+      // FOR CRON JOB FUNCTION
+      // loop through all sessions together with their event start date, and return only sessions whose events are that day
+      // go throught the array of session objects, calculate each sessions time, and for any session whose time seems to be 10mins from the current time, we send that session as an update
+      // to the pusher room related to the event
+      // }
+      const { title } = event;
+      const pusherRoom = title.split(' ').join('_');
+      chatkit
+        .addUsersToRoom({
+          roomId: `${pusherRoom}_1`,
+          userIds: [user.email],
+        })
+        .then(() => console.log('added'))
+        .catch(err => console.error(err));
+      return formatResponse(res, { event });
+    }
+    return formatResponse(res, {
+      message: 'success',
+      event: {
+        ...event.dataValues,
+        registered: !!rsvp,
+      },
+    });
   }
-  return formatResponse(res, { event });
+  return formatResponse(res, { message: 'success', event }, 200); ç;
 }
