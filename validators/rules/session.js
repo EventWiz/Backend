@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-export const createSessionValidationRules = () => [
+export default () => [
   body().isArray(),
   body('*.event_id', 'event_id is required')
     .exists()
