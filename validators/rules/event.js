@@ -32,5 +32,6 @@ export const createEventValidationRules = () => [
   body("capacity")
     .not()
     .isEmpty()
-    .withMessage("capacity is required")
+    .isNumeric()
+    .withMessage("capacity is required and must be a number")
 ];
