@@ -2,9 +2,9 @@ import formatResponse from '../helpers';
 
 import models from '../database/models';
 
-export async function createSession(req, res, next) {
+export default async function createSession(req, res, next) {
   try {
-    const sessions = req.body.map(async body => {
+    const sessions = req.body.map(async (body) => {
       const {
         event_id,
         start_time,
@@ -27,11 +27,14 @@ export async function createSession(req, res, next) {
 
       return session.dataValues;
     });
-    const createdSessions =  await Promise.all(sessions);
+    const createdSessions = await Promise.all(sessions);
 
     return formatResponse(
       res,
-      { message: `${sessions.length} session[s] created successfully.`, data: createdSessions },
+      {
+        message: `${sessions.length} session[s] created successfully.`,
+        data: createdSessions,
+      },
       201,
     );
   } catch (error) {
