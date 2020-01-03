@@ -1,7 +1,13 @@
 import { ErrorHandler } from 'express-error-bouncer';
+import Chatkit from '@pusher/chatkit-server';
 import formatResponse from '../helpers';
 
 import models from '../database/models';
+
+const chatkit = new Chatkit({
+  instanceLocator: process.env.PUSHER_INSTANCE_LOCATOR,
+  key: process.env.PUSHER_KEY,
+});
 
 export async function createEvent(req, res, next) {
   try {
@@ -15,6 +21,15 @@ export async function createEvent(req, res, next) {
       end_date,
       capacity,
     } = req.body;
+
+    const eventPusherRoomName = title.split(' ').join('_');
+
+    chatkit.createRoom({
+      id: `${eventPusherRoomName}_1`,
+      creatorId: 'eventz_admin',
+      name: eventPusherRoomName,
+      customData: { foo: 42 },
+    });
 
     const { id } = req.user;
 
