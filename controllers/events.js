@@ -58,3 +58,21 @@ export async function editEvent(req, res, next) {
     next(error);
   }
 }
+
+export async function deleteEvent(req, res, next) {
+  try {
+    const { eventId } = req.params;
+    const { id } = req.user;
+
+    const deleted = await models.Event.destroy({
+      where: { id: eventId, creator: id },
+    });
+
+    if (deleted) {
+      return formatResponse(res, { message: 'success' }, 204);
+    }
+    throw new ErrorHandler(404, 'Event does not exist');
+  } catch (error) {
+    next(error);
+  }
+}

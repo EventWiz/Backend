@@ -98,3 +98,19 @@ describe('Edit event Endpoint', () => {
     expect(statusCode).toEqual(404);
   });
 });
+
+describe('Delete event Endpoint', () => {
+  it('should respond with status code 204', async () => {
+    const { statusCode } = await request(app)
+      .delete(`${BASE_URL}/events/${eventId}`)
+      .set('Authorization', token);
+
+    expect(statusCode).toEqual(204);
+  });
+  it('should respond with status code 404 when invalid eventId is passed', async () => {
+    const { statusCode } = await request(app)
+      .delete(`${BASE_URL}/events/cb4b1b16-3df2-4e37-985d-aed1b67a6b4c`)
+      .set('Authorization', token);
+    expect(statusCode).toEqual(404);
+  });
+});
