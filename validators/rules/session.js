@@ -5,14 +5,14 @@ export const createSessionValidationRules = () => [
     .not()
     .isEmpty()
     .withMessage('event_id is required'),
-  body('start_date')
+  body('start_time')
     .not()
     .isEmpty()
-    .withMessage('start_date is required'),
-  body('end_date')
+    .withMessage('start_time is required'),
+  body('end_time')
     .not()
     .isEmpty()
-    .withMessage('end_date is required'),
+    .withMessage('end_time is required'),
   body('speaker')
     .not()
     .isEmpty()
