@@ -22,7 +22,7 @@ export const generateToken = (payload) => {
  * @param {string} token
  * @returns {object} payload
  */
-const decodeToken = (token) => {
+export const decodeToken = (token) => {
   try {
     return jwt.verify(token, secret);
   } catch (error) {
