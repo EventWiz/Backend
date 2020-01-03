@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../api/server';
 
 let token;
+let eventId;
 
 const BASE_URL = '/api';
 const userData = {
@@ -34,7 +35,6 @@ beforeAll(async () => {
       .send({ email: 'test1@test.com', password: 'test12' });
 
     token = response.body.token;
-    console.log(token);
   } catch (error) {
     return null;
   }
@@ -48,13 +48,14 @@ describe('Create event Endpoint', () => {
     expect(statusCode).toEqual(422);
     expect(body).toHaveProperty('errors');
   });
-  it('should respond with status code 201 if register succeeds', async () => {
+  it('should respond with status code 201 if event creation succeeds', async () => {
     const { statusCode, body } = await request(app)
       .post(`${BASE_URL}/events/create`)
       .send(eventData)
       .set('Authorization', token);
     expect(statusCode).toEqual(201);
     expect(body).toHaveProperty('event');
+    eventId = body.event.id;
   });
   it('should respond with status code 500 when invalid token is passed', async () => {
     const { statusCode } = await request(app)
@@ -68,5 +69,32 @@ describe('Create event Endpoint', () => {
       .post(`${BASE_URL}/events/create`)
       .send(eventData);
     expect(statusCode).toEqual(403);
+  });
+});
+
+describe('Edit event Endpoint', () => {
+  it('should respond with status code 400 if an empty request was sent', async () => {
+    const { statusCode } = await request(app)
+      .put(`${BASE_URL}/events/${eventId}`)
+      .send({})
+      .set('Authorization', token);
+    expect(statusCode).toEqual(400);
+  });
+  it('should respond with status code 200', async () => {
+    const { statusCode, body } = await request(app)
+      .put(`${BASE_URL}/events/${eventId}`)
+      .send({
+        type: 'Social',
+      })
+      .set('Authorization', token);
+    expect(statusCode).toEqual(200);
+    expect(body).toHaveProperty('updatedEvent');
+  });
+  it('should respond with status code 404 when invalid eventId is passed', async () => {
+    const { statusCode } = await request(app)
+      .post(`${BASE_URL}/events/93875660985095`)
+      .send(eventData)
+      .set('Authorization', token);
+    expect(statusCode).toEqual(404);
   });
 });
