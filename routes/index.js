@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import authRoutes from './auth';
 import eventRoutes from './event';
 import sessionRoutes from './session';

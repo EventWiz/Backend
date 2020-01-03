@@ -1,8 +1,15 @@
 import { ErrorHandler } from 'express-error-bouncer';
+import Chatkit from '@pusher/chatkit-server';
 import formatResponse from '../helpers';
 import { generateToken } from '../helpers/auth';
 
+
 import models from '../database/models';
+
+const chatkit = new Chatkit({
+  instanceLocator: process.env.PUSHER_INSTANCE_LOCATOR,
+  key: process.env.PUSHER_KEY,
+});
 
 export async function register(req, res, next) {
   try {
@@ -22,6 +29,12 @@ export async function register(req, res, next) {
     if (!created && user) {
       throw new ErrorHandler(409, 'User with the email address already exists');
     }
+
+    await chatkit.createUser({
+      id: email,
+      name: firstName,
+    });
+
     return formatResponse(res, { message: 'success', user }, 201);
   } catch (error) {
     next(error);

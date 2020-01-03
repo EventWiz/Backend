@@ -1,7 +1,14 @@
 import { ErrorHandler } from 'express-error-bouncer';
+import Chatkit from '@pusher/chatkit-server';
 import formatResponse from '../helpers';
 
 import models from '../database/models';
+import { decodeToken } from '../helpers/auth';
+
+const chatkit = new Chatkit({
+  instanceLocator: process.env.PUSHER_INSTANCE_LOCATOR,
+  key: process.env.PUSHER_KEY,
+});
 
 export async function createEvent(req, res, next) {
   try {
@@ -16,6 +23,8 @@ export async function createEvent(req, res, next) {
       capacity,
     } = req.body;
 
+    const eventPusherRoomName = title.split(' ').join('_');
+
     const { id } = req.user;
 
     const event = await models.Event.create({
@@ -29,6 +38,14 @@ export async function createEvent(req, res, next) {
       capacity,
       creator: id,
     });
+
+    await chatkit.createRoom({
+      id: `${eventPusherRoomName}_1`,
+      creatorId: 'eventz_admin',
+      name: eventPusherRoomName,
+      customData: { foo: 42 },
+    });
+
     return formatResponse(res, { message: 'success', event }, 201);
   } catch (error) {
     next(error);
@@ -89,6 +106,8 @@ export async function getAllEvents(req, res) {
 }
 
 export async function getEventById(req, res) {
+  const { authorization } = req.headers;
+
   const event = await models.Event.findOne({
     where: { id: req.params.eventId },
     include: [
@@ -97,5 +116,28 @@ export async function getEventById(req, res) {
       },
     ],
   });
+
+  // compare if the user is registered ffor the event before adding them to the room
+  // function updateRoomsWithSessions() {
+  // FOR CRON JOB FUNCTION
+  // loop through all sessions together with their event start date, and return only sessions whose events are that day
+  // go throught the array of session objects, calculate each sessions time, and for any session whose time seems to be 10mins from the current time, we send that session as an update
+  // to the pusher room related to the event
+  // }
+
+  if (authorization) {
+    const { email } = decodeToken(authorization);
+    const { title } = event;
+    const pusherRoom = title.split(' ').join('_');
+    chatkit
+      .addUsersToRoom({
+        roomId: `${pusherRoom}_1`,
+        userIds: [email],
+      })
+      .then(() => console.log('added'))
+      .catch(err => console.error(err));
+
+    return formatResponse(res, { event });
+  }
   return formatResponse(res, { event });
 }
