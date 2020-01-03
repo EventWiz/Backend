@@ -1,6 +1,8 @@
 import { ErrorHandler } from 'express-error-bouncer';
 import formatResponse from '../helpers';
 
+import { decodeToken } from '../helpers/auth';
+
 import models from '../database/models';
 
 export async function createEvent(req, res, next) {
@@ -85,7 +87,7 @@ export async function getAllEvents(req, res) {
       },
     ],
   });
-  return formatResponse(res, { event });
+  return formatResponse(res, { message: 'success', event }, 200);
 }
 
 export async function getEventById(req, res) {
@@ -97,5 +99,19 @@ export async function getEventById(req, res) {
       },
     ],
   });
-  return formatResponse(res, { event });
+  if (req.headers.authorization) {
+    const user = decodeToken(req.headers.authorization);
+
+    const rsvp = await models.Rsvp.findOne({
+      where: { user_id: user.__uuid, event_id: event.id },
+    });
+    return formatResponse(res, {
+      message: 'success',
+      event: {
+        ...event.dataValues,
+        registered: !!rsvp,
+      },
+    });
+  }
+  return formatResponse(res, { message: 'success', event }, 200);
 }
