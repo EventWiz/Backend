@@ -49,6 +49,7 @@ export async function createEvent(req, res, next) {
 
     return formatResponse(res, { message: 'success', event }, 201);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 }
@@ -103,6 +104,9 @@ export async function getAllEvents(req, res) {
       },
     ],
   });
+  if (!event) {
+    throw new ErrorHandler(404, 'Event does not exist');
+  }
   return formatResponse(res, { message: 'success', event }, 200);
 }
 
@@ -117,6 +121,9 @@ export async function getEventById(req, res) {
       },
     ],
   });
+  if (!event) {
+    throw new ErrorHandler(404, 'Event does not exist');
+  }
   if (authorization) {
     const user = decodeToken(authorization);
 

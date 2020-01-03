@@ -12,11 +12,11 @@ module.exports = {
       allowNull: false,
     },
     start_time: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     end_time: {
-      type: Sequelize.DATE,
+      type: Sequelize.TIME,
       allowNull: false,
     },
     speaker: {

@@ -40,6 +40,8 @@ export async function createSession(req, res, next) {
       201,
     );
   } catch (error) {
+    console.log(error);
+
     next(error);
   }
 }
@@ -53,7 +55,6 @@ export async function getSessionById(req, res) {
   }
   return formatResponse(res, { session });
 }
-
 
 export async function deleteSession(req, res, next) {
   try {
