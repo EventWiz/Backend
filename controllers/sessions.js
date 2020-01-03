@@ -2,7 +2,7 @@ import formatResponse from '../helpers';
 
 import models from '../database/models';
 
-export default async function createEvent(req, res, next) {
+export async function createSession(req, res, next) {
   try {
     const {
       event_id,
